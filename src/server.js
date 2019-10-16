@@ -10,3 +10,12 @@ server.route({
         }
     }
 });
+server.route({
+    method: 'GET',
+    path: '/ts',
+    handler: (request, h) => {
+
+        return 'Hello ts!';
+    }
+},
+);
