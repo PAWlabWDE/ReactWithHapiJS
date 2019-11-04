@@ -1,0 +1,179 @@
+import React from "react";
+import "./App.css";
+import Board from "./Board";
+
+function App() {
+  return (
+    <container
+      class="container"
+      role="main"
+      style={{
+        height: "100%",
+        position: "absolute",
+        left: "0px",
+        width: "100%",
+        overflow: "hidden"
+      }}
+    >
+      <Headerr />
+      <Navi />
+      <Sectionn />
+      <Asidee />
+      <Footerr />
+    </container>
+  );
+}
+
+class Navi extends React.Component {
+  render() {
+    return (
+      <nav className="nav">
+        <fieldset>
+          <legend>Algorytmy</legend>
+          <Alg nazwa={"merge sort"} />
+          <Alg nazwa={"bubble sort"} />
+          <Alg nazwa={"quick sort"} />
+        </fieldset>
+        <Przycisk />
+      </nav>
+    );
+  }
+}
+
+class Alg extends React.Component {
+  render() {
+    return (
+      <div class="zawartosc">
+        <label>
+          <input type="checkbox" name="alg[]"></input>
+          {this.props.nazwa}
+        </label>
+      </div>
+    );
+  }
+}
+
+class Przycisk extends React.Component {
+  constructor() {
+    super();
+    this.state = { licznik: 0, licznikPodwojnychKlikniec: 0 };
+  }
+  onButtonClick() {
+    this.setState({ licznik: this.state.licznik + 1 });
+  }
+  onDoubleClick() {
+    this.setState({
+      licznikPodwojnychKlikniec: this.state.licznikPodwojnychKlikniec + 1
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <p>{this.state.licznik}</p>
+        <p>{this.state.licznikPodwojnychKlikniec}</p>
+        <button
+          onClick={this.onButtonClick.bind(this)}
+          onDoubleClick={this.onDoubleClick.bind(this)}
+        >
+          Click
+        </button>
+      </div>
+    );
+  }
+}
+
+class Headerr extends React.Component {
+  render() {
+    return <header className="header">HEADER</header>;
+  }
+}
+
+class Sectionn extends React.Component {
+  wyswietlListy() {
+    this.render(<p>to s¹ nasze listy xD</p>);
+  }
+
+  render() {
+    return (
+      <section className="section">
+        <div>
+          <button onClick={this.wyswietlListy.bind(this)}>
+            wyœwietl listy
+          </button>
+        </div>
+
+        <ListaKomponentow />
+      </section>
+    );
+  }
+}
+
+class ListaKomponentow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+      text: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState(prevState => ({
+      list: prevState.list.concat(this.state.text),
+      text: ""
+    }));
+  }
+
+  handleChange(e) {
+    this.setState({
+      text: e.target.value
+    });
+  }
+
+  removeItem(index) {
+    console.log("removeItem");
+    return <Board>CHoj wie co</Board>;
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>TODO LIST</h1>
+        <form onSubmit={this.handleSubmit}>
+          <input value={this.state.text} onChange={e => this.handleChange(e)} />
+          <button>Add</button>
+          <button type="submit">Odd</button>
+          <button type="button">Nie dodam elementu!</button>
+          <ol>
+            {this.state.list.map((item, index) => {
+              return (
+                <li key={index}>
+                  <button onClick={() => this.removeItem(index)}>{item}</button>
+                </li>
+              );
+            })}
+          </ol>
+        </form>
+      </div>
+    );
+  }
+}
+
+class Asidee extends React.Component {
+  render() {
+    return <aside className="aside">ASIDE</aside>;
+  }
+}
+
+class Footerr extends React.Component {
+  render() {
+    return <footer className="footer">FOOTER</footer>;
+  }
+}
+
+export default App;
